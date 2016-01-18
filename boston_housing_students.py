@@ -208,10 +208,10 @@ def fit_predict_model(city_data):
       #sklearn.grid_search.GridSearchCV
       #class sklearn.grid_search.GridSearchCV(estimator, param_grid, scoring=None, fit_params=None, n_jobs=1, iid=True, refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs', error_score='raise')
 
-      #reg = grid_search.GridSearchCV(regressor, parameters, scoring=scorer)
+      reg = grid_search.GridSearchCV(regressor, parameters, scoring=scorer)
       
       # Alternative implementation  with Randomized search
-      reg = grid_search.RandomizedSearchCV(regressor, parameters, n_iter=10, scoring=scorer)
+      #reg = grid_search.RandomizedSearchCV(regressor, parameters, n_iter=10, scoring=scorer)
 
 	# Fit the learner to the training data
       print "Final Model: "
@@ -220,7 +220,16 @@ def fit_predict_model(city_data):
     
       # Use the model to predict the output of a particular sample
       x = [11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]
-      y = reg.predict(x)
+      #y = reg.predict(x)
+      
+      # Alternative implementation with best_estimator
+      
+      # Retrieve the best estimator found by GridSearchCV.
+      est = reg.best_estimator_
+      
+      # Use the object ‘est’ to make a prediction
+      y = est.predict(x)       
+      
       print "House: " + str(x)
       print "Prediction: " + str(y)
 

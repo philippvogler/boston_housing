@@ -11,6 +11,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import make_scorer
 from sklearn import grid_search
+from sklearn.neighbors import NearestNeighbors
 
 ################################
 ### ADD EXTRA LIBRARIES HERE ###
@@ -79,9 +80,7 @@ def performance_metric(label, prediction):
 	error = mean_squared_error(label, prediction)
 	#print mean_squared_error
  
-      #mean_squared_error(y_true, y_pred)
-      #source: http://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation: 3.3.4.3. Mean squared error   
-    
+      #http://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation: 3.3.4.3. Mean squared error   
       #http://scikit-learn.org/stable/modules/classes.html#sklearn-metrics-metrics
 	return error
 
@@ -99,9 +98,7 @@ def split_data(city_data):
       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
       return X_train, y_train, X_test, y_test
     
-    
-      #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-      #source: http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html
+      #http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html
 
 def learning_curve(depth, X_train, y_train, X_test, y_test):
 	'''Calculate the performance of the model after a set of training data.'''
@@ -213,6 +210,9 @@ def fit_predict_model(city_data):
       #class sklearn.grid_search.GridSearchCV(estimator, param_grid, scoring=None, fit_params=None, n_jobs=1, iid=True, refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs', error_score='raise')
 
       reg = grid_search.GridSearchCV(regressor, parameters, scoring=scorer)
+      
+      # Alternative implementation  with Randomized search
+      #reg = grid_search.RandomizedSearchCV(regressor, parameters, n_iter=10, scoring=scorer)
 
 	# Fit the learner to the training data
       print "Final Model: "
@@ -222,9 +222,22 @@ def fit_predict_model(city_data):
       # Use the model to predict the output of a particular sample
       x = [11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]
       y = reg.predict(x)
+      
+      # Alternative implementation with best_estimator
+      
+      # Retrieve the best estimator found by GridSearchCV.
+      #est = reg.best_estimator_
+      
+      # Use the object 'est' to make a prediction
+      #y = est.predict(x)       
+      
       print "House: " + str(x)
       print "Prediction: " + str(y)
-
+      
+      # Implementation with nearest neighbor
+      #nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree').fit(X)
+      #dist, ind = nbrs.kneighbors(x)
+      #print "Nearest Neighbor: " +str(dist)
 
 def main():
 	'''Analyze the Boston housing data. Evaluate and validate the

@@ -79,9 +79,7 @@ def performance_metric(label, prediction):
 	error = mean_squared_error(label, prediction)
 	#print mean_squared_error
  
-      #mean_squared_error(y_true, y_pred)
-      #source: http://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation: 3.3.4.3. Mean squared error   
-    
+      #http://scikit-learn.org/stable/modules/model_evaluation.html#model-evaluation: 3.3.4.3. Mean squared error   
       #http://scikit-learn.org/stable/modules/classes.html#sklearn-metrics-metrics
 	return error
 
@@ -99,9 +97,7 @@ def split_data(city_data):
       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
       return X_train, y_train, X_test, y_test
     
-    
-      #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-      #source: http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html
+      #http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html
 
 def learning_curve(depth, X_train, y_train, X_test, y_test):
 	'''Calculate the performance of the model after a set of training data.'''
@@ -212,7 +208,10 @@ def fit_predict_model(city_data):
       #sklearn.grid_search.GridSearchCV
       #class sklearn.grid_search.GridSearchCV(estimator, param_grid, scoring=None, fit_params=None, n_jobs=1, iid=True, refit=True, cv=None, verbose=0, pre_dispatch='2*n_jobs', error_score='raise')
 
-      reg = grid_search.GridSearchCV(regressor, parameters, scoring=scorer)
+      #reg = grid_search.GridSearchCV(regressor, parameters, scoring=scorer)
+      
+      # Alternative implementation  with Randomized search
+      reg = grid_search.RandomizedSearchCV(regressor, parameters, n_iter=10, scoring=scorer)
 
 	# Fit the learner to the training data
       print "Final Model: "

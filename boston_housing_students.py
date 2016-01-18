@@ -11,6 +11,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import make_scorer
 from sklearn import grid_search
+from sklearn.neighbors import NearestNeighbors
 
 ################################
 ### ADD EXTRA LIBRARIES HERE ###
@@ -220,19 +221,23 @@ def fit_predict_model(city_data):
     
       # Use the model to predict the output of a particular sample
       x = [11.95, 0.00, 18.100, 0, 0.6590, 5.6090, 90.00, 1.385, 24, 680.0, 20.20, 332.09, 12.13]
-      #y = reg.predict(x)
+      y = reg.predict(x)
       
       # Alternative implementation with best_estimator
       
       # Retrieve the best estimator found by GridSearchCV.
-      est = reg.best_estimator_
+      #est = reg.best_estimator_
       
-      # Use the object ‘est’ to make a prediction
-      y = est.predict(x)       
+      # Use the object 'est' to make a prediction
+      #y = est.predict(x)       
       
       print "House: " + str(x)
       print "Prediction: " + str(y)
-
+      
+      # Implementation with nearest neighbor
+      #nbrs = NearestNeighbors(n_neighbors=1, algorithm='ball_tree').fit(X)
+      #dist, ind = nbrs.kneighbors(x)
+      #print "Nearest Neighbor: " +str(dist)
 
 def main():
 	'''Analyze the Boston housing data. Evaluate and validate the
